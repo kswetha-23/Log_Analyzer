@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Log Analysis Report</h2>
+
+        <p><b>Total Requests:</b> {{ result.total_requests }}</p>
+
+        <h3>Top 5 IP Addresses</h3>
+        <ul>
+            {% for ip, count in result.top_ips %}
+            <li>{{ ip }} → {{ count }} requests</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Top 5 Accessed URLs</h3>
+        <ul>
+            {% for url, count in result.top_urls %}
+            <li>{{ url }} → {{ count }} hits</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Error Status Codes</h3>
+        <ul>
+            {% for code, count in result.error_counts.items() %}
+            <li>{{ code }} → {{ count }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Suspicious IP Addresses</h3>
+        {% if result.suspicious_ips %}
+            <ul>
+                {% for ip in result.suspicious_ips %}
+                <li style="color:red;">⚠ {{ ip }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color:green;">No suspicious activity detected.</p>
+        {% endif %}
+
+        <br>
+        <a href="/">Analyze Another Log</a>
+    </div>
+</body>
+</html>
